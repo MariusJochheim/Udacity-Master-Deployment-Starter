@@ -79,6 +79,7 @@ jobs:
           name: Deploy Frontend to S3
           command: |
             aws s3 sync udagram/udagram-frontend/www s3://$AWS_BUCKET --delete --acl public-read
+            aws s3 website s3://$AWS_BUCKET --index-document index.html --error-document index.html
             echo "Frontend deployed to: https://$AWS_BUCKET.s3-website-us-east-1.amazonaws.com/index.html"
             
 workflows:
