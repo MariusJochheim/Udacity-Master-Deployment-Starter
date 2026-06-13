@@ -24,6 +24,8 @@ See [Pipeline.md](Pipeline.md).
 
 ## CircleCI Screenshots
 
+![CircleCI environment variables](images/resources/circleci/Environment_Variables.png)
+
 ![CircleCI build job](images/resources/circleci/Workflows_build.png)
 
 ![CircleCI hold job](images/resources/circleci/Workflows_hold.png)
