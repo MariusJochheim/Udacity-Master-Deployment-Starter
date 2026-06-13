@@ -53,6 +53,8 @@ Required CircleCI project environment variables:
 
 Do not use `POSTGRES_USER` or `AWS_DEFAULT_REGION` as the project variable names for this application. The backend configuration expects `POSTGRES_USERNAME` and `AWS_REGION`, so CircleCI and Elastic Beanstalk must use those exact names.
 
+The CircleCI AWS and Elastic Beanstalk tooling expects `AWS_DEFAULT_REGION` internally. The deploy job derives that value from `AWS_REGION` at runtime, so `AWS_DEFAULT_REGION` does not need to be stored as a separate CircleCI project secret.
+
 The deploy job passes these backend runtime values to Elastic Beanstalk:
 
 ```bash
