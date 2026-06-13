@@ -10,7 +10,7 @@ Frontend URL: [http://mj-udacity-udagram-s3.s3-website-us-east-1.amazonaws.com](
 
 ## Working Application Screenshot
 
-![Working Udagram application](docs/images/resources/website/Working_Example.png)
+![Working Udagram application](screenshots/Working_Example.png)
 
 ## Documentation
 

@@ -24,13 +24,13 @@ See [Pipeline.md](Pipeline.md).
 
 ## CircleCI Screenshots
 
-![CircleCI environment variables](images/resources/circleci/Environment_Variables.png)
+![CircleCI environment variables](../screenshots/Environment_Variables.png)
 
-![CircleCI build job](images/resources/circleci/Workflows_build.png)
+![CircleCI build job](../screenshots/Workflows_build.png)
 
-![CircleCI hold job](images/resources/circleci/Workflows_hold.png)
+![CircleCI hold job](../screenshots/Workflows_hold.png)
 
-![CircleCI deploy job](images/resources/circleci/Workflows_deploy.png)
+![CircleCI deploy job](../screenshots/Workflows_deploy.png)
 
 ## Secrets
 

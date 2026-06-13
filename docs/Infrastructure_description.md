@@ -27,25 +27,25 @@ See [Architecture.md](Architecture.md).
 
 ### RDS
 
-![RDS database overview](images/resources/postgres/Databases_Overview.png)
+![RDS database overview](../screenshots/Databases_Overview.png)
 
-![RDS database properties](images/resources/postgres/Database_Properties.png)
+![RDS database properties](../screenshots/Database_Properties.png)
 
 ### Elastic Beanstalk
 
-![Elastic Beanstalk environments](images/resources/elastic-beanstalk/EB_Environments.png)
+![Elastic Beanstalk environments](../screenshots/EB_Environments.png)
 
-![Elastic Beanstalk properties](images/resources/elastic-beanstalk/EB_Properties.png)
+![Elastic Beanstalk properties](../screenshots/EB_Properties.png)
 
 ### S3
 
-![S3 buckets overview](images/resources/s3-bucket/Buckets_Overview.png)
+![S3 buckets overview](../screenshots/Buckets_Overview.png)
 
-![S3 bucket properties](images/resources/s3-bucket/Bucket_Properties_1.png)
+![S3 bucket properties](../screenshots/Bucket_Properties_1.png)
 
-![S3 bucket website hosting](images/resources/s3-bucket/Bucket_Properties_2.png)
+![S3 bucket website hosting](../screenshots/Bucket_Properties_2.png)
 
-![S3 bucket permissions](images/resources/s3-bucket/Bucket_Permissions_1.png)
+![S3 bucket permissions](../screenshots/Bucket_Permissions_1.png)
 
 ## Environment Configuration
 
