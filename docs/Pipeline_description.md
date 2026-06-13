@@ -81,4 +81,4 @@ eb setenv \
 
 When AWS temporary credentials expire, update all three AWS credential values in CircleCI and redeploy so Elastic Beanstalk receives the refreshed session.
 
-The deploy job validates the AWS credentials with `aws sts get-caller-identity` before running `eb setenv`. If that check fails with `The security token included in the request is invalid`, the CircleCI AWS credential values are expired, malformed, or not from the same session.
+The deploy job checks that all required CircleCI environment variables are present before running `eb setenv`. If deployment fails with `The security token included in the request is invalid`, the CircleCI AWS credential values are expired, malformed, or not from the same session.
