@@ -34,11 +34,11 @@ See [Pipeline.md](Pipeline.md).
 
 ## Secrets
 
-Production secrets are configured outside the repository. CircleCI stores the required deployment and application secrets as project environment variables. During the deploy job, CircleCI uses the AWS credentials to deploy the backend bundle to Elastic Beanstalk, and the production API receives its runtime secrets from the Elastic Beanstalk environment properties that are configured from those same CircleCI-managed values or directly in Elastic Beanstalk.
+Production secrets are configured outside the repository. CircleCI stores the required deployment and application secrets as project environment variables. During the deploy job, CircleCI validates that the required variables exist, uses the AWS credentials to deploy the backend bundle to Elastic Beanstalk, and runs `eb setenv` so the Elastic Beanstalk production environment receives the same runtime values that the backend reads from `udagram/udagram-api/src/config/config.ts`.
 
 These values are not committed to the repository. The checked-in `udagram/set_env.sh` file is only a local development template.
 
-Required CircleCI environment variables include:
+Required CircleCI project environment variables:
 
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
@@ -50,3 +50,23 @@ Required CircleCI environment variables include:
 - `POSTGRES_PASSWORD`
 - `JWT_SECRET`
 - `URL`
+
+Do not use `POSTGRES_USER` or `AWS_DEFAULT_REGION` as the project variable names for this application. The backend configuration expects `POSTGRES_USERNAME` and `AWS_REGION`, so CircleCI and Elastic Beanstalk must use those exact names.
+
+The deploy job passes these backend runtime values to Elastic Beanstalk:
+
+```bash
+eb setenv \
+  POSTGRES_USERNAME="$POSTGRES_USERNAME" \
+  POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
+  POSTGRES_HOST="$POSTGRES_HOST" \
+  POSTGRES_DB="$POSTGRES_DB" \
+  JWT_SECRET="$JWT_SECRET" \
+  AWS_BUCKET="$AWS_BUCKET" \
+  AWS_REGION="$AWS_REGION" \
+  AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
+  AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+  URL="$URL"
+```
+
+After updating the CircleCI project settings, replace the CircleCI environment variables screenshot with a new screenshot showing the exact names above.

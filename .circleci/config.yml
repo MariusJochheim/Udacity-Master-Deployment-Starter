@@ -67,20 +67,55 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+
+      - run:
+          name: Verify Required Deployment Environment Variables
+          command: |
+            required_vars=(
+              AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY
+              AWS_REGION
+              AWS_BUCKET
+              POSTGRES_HOST
+              POSTGRES_DB
+              POSTGRES_USERNAME
+              POSTGRES_PASSWORD
+              JWT_SECRET
+              URL
+            )
+
+            for var_name in "${required_vars[@]}"; do
+              if [ -z "${!var_name}" ]; then
+                echo "Missing required CircleCI environment variable: ${var_name}"
+                exit 1
+              fi
+            done
       
       - run:
-          name: Deploy API to ElasticBeanstalk
+          name: Configure and Deploy API to ElasticBeanstalk
           command: |
             cd udagram/udagram-api
+            eb use Mj-udacity-udagram-api-env
+            eb setenv \
+              POSTGRES_USERNAME="$POSTGRES_USERNAME" \
+              POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
+              POSTGRES_HOST="$POSTGRES_HOST" \
+              POSTGRES_DB="$POSTGRES_DB" \
+              JWT_SECRET="$JWT_SECRET" \
+              AWS_BUCKET="$AWS_BUCKET" \
+              AWS_REGION="$AWS_REGION" \
+              AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
+              AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+              URL="$URL"
             npm run deploy
             cd ../..
       
       - run:
           name: Deploy Frontend to S3
           command: |
-            aws s3 sync udagram/udagram-frontend/www s3://$AWS_BUCKET --delete --acl public-read
-            aws s3 website s3://$AWS_BUCKET --index-document index.html --error-document index.html
-            echo "Frontend deployed to: https://$AWS_BUCKET.s3-website-us-east-1.amazonaws.com/index.html"
+            aws s3 sync udagram/udagram-frontend/www s3://$AWS_BUCKET --delete --acl public-read --region "$AWS_REGION"
+            aws s3 website s3://$AWS_BUCKET --index-document index.html --error-document index.html --region "$AWS_REGION"
+            echo "Frontend deployed to: https://$AWS_BUCKET.s3-website-$AWS_REGION.amazonaws.com/index.html"
             
 workflows:
   udagram:
