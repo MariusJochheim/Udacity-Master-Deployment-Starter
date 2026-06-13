@@ -64,6 +64,8 @@ Production values include:
 - `JWT_SECRET`
 - `URL`
 
+`AWS_SESSION_TOKEN` should not be set for this deployment. The backend signs S3 URLs with `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`; a stale or mismatched session token causes S3 uploads to fail with `InvalidToken`.
+
 The variable names must match the backend configuration exactly. Use `POSTGRES_USERNAME`, not `POSTGRES_USER`; use `AWS_REGION`, not `AWS_DEFAULT_REGION`.
 
 Elastic Beanstalk production environment properties should include:
