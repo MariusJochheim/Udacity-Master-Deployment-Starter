@@ -83,6 +83,7 @@ jobs:
             required_vars=(
               AWS_ACCESS_KEY_ID
               AWS_SECRET_ACCESS_KEY
+              AWS_SESSION_TOKEN
               AWS_REGION
               AWS_BUCKET
               POSTGRES_HOST
@@ -115,8 +116,8 @@ jobs:
               AWS_REGION="$AWS_REGION" \
               AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
               AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+              AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
               URL="$URL"
-            eb unsetenv AWS_SESSION_TOKEN || true
             npm run deploy
             cd ../..
       
