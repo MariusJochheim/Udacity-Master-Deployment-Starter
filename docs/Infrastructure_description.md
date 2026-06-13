@@ -49,15 +49,17 @@ See [Architecture.md](Architecture.md).
 
 ## Environment Configuration
 
-Environment-specific and secret values are not committed to source code. The API loads configuration from environment variables through its central configuration files under `udagram/udagram-api/src/config`. CircleCI and Elastic Beanstalk provide production values such as:
+Environment-specific and secret values are not committed to source code. The production API loads configuration from environment variables through `udagram/udagram-api/src/config/config.ts`. CircleCI stores the required secrets as project environment variables for deployment, and Elastic Beanstalk exposes the application secrets as environment properties to the running API process. In other words, the production API receives the required secrets from CircleCI during deployment and from Elastic Beanstalk at runtime, not from checked-in files.
+
+Production values include:
 
 - `POSTGRES_HOST`
-- `POSTGRES_PORT`
 - `POSTGRES_DB`
-- `POSTGRES_USER`
+- `POSTGRES_USERNAME`
 - `POSTGRES_PASSWORD`
 - `AWS_BUCKET`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
-- `AWS_DEFAULT_REGION`
+- `AWS_REGION`
 - `JWT_SECRET`
+- `URL`

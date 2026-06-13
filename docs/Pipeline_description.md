@@ -34,17 +34,19 @@ See [Pipeline.md](Pipeline.md).
 
 ## Secrets
 
-Production secrets are configured in CircleCI project environment variables and passed to the deployment commands. These values are not committed to the repository.
+Production secrets are configured outside the repository. CircleCI stores the required deployment and application secrets as project environment variables. During the deploy job, CircleCI uses the AWS credentials to deploy the backend bundle to Elastic Beanstalk, and the production API receives its runtime secrets from the Elastic Beanstalk environment properties that are configured from those same CircleCI-managed values or directly in Elastic Beanstalk.
+
+These values are not committed to the repository. The checked-in `udagram/set_env.sh` file is only a local development template.
 
 Required CircleCI environment variables include:
 
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
-- `AWS_DEFAULT_REGION`
+- `AWS_REGION`
 - `AWS_BUCKET`
 - `POSTGRES_HOST`
-- `POSTGRES_PORT`
 - `POSTGRES_DB`
-- `POSTGRES_USER`
+- `POSTGRES_USERNAME`
 - `POSTGRES_PASSWORD`
 - `JWT_SECRET`
+- `URL`
