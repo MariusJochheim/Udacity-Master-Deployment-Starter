@@ -26,6 +26,8 @@ See [Pipeline.md](Pipeline.md).
 
 ![CircleCI environment variables](../screenshots/Environment_Variables.png)
 
+![CircleCI pipeline overview](../screenshots/Workflows_overview.png)
+
 ![CircleCI build job](../screenshots/Workflows_build.png)
 
 ![CircleCI hold job](../screenshots/Workflows_hold.png)
@@ -42,6 +44,7 @@ Required CircleCI project environment variables:
 
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
+- `AWS_SESSION_TOKEN`
 - `AWS_REGION`
 - `AWS_BUCKET`
 - `POSTGRES_HOST`
@@ -50,6 +53,10 @@ Required CircleCI project environment variables:
 - `POSTGRES_PASSWORD`
 - `JWT_SECRET`
 - `URL`
+
+This project uses temporary AWS credentials. `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` must all come from the same current AWS credentials session. If one value is old or copied from a different session, S3 pre-signed upload URLs fail with `InvalidToken`.
+
+Copy the values into CircleCI exactly as plain values. Do not include `export`, quotes, trailing spaces, or line breaks. With temporary AWS credentials, `AWS_ACCESS_KEY_ID` usually starts with `ASIA`; if it starts with `AKIA`, it is usually a long-lived key and should not be combined with a session token.
 
 Do not use `POSTGRES_USER` or `AWS_DEFAULT_REGION` as the project variable names for this application. The backend configuration expects `POSTGRES_USERNAME` and `AWS_REGION`, so CircleCI and Elastic Beanstalk must use those exact names.
 
@@ -68,7 +75,10 @@ eb setenv \
   AWS_REGION="$AWS_REGION" \
   AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
   AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+  AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
   URL="$URL"
 ```
 
-After updating the CircleCI project settings, replace the CircleCI environment variables screenshot with a new screenshot showing the exact names above.
+When AWS temporary credentials expire, update all three AWS credential values in CircleCI and redeploy so Elastic Beanstalk receives the refreshed session.
+
+The deploy job validates the AWS credentials with `aws sts get-caller-identity` before running `eb setenv`. If that check fails with `The security token included in the request is invalid`, the CircleCI AWS credential values are expired, malformed, or not from the same session.

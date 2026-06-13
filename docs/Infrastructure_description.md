@@ -60,15 +60,12 @@ Production values include:
 - `AWS_BUCKET`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
+- `AWS_SESSION_TOKEN`
 - `AWS_REGION`
 - `JWT_SECRET`
 - `URL`
 
-`AWS_SESSION_TOKEN` should not be set for this deployment. The backend signs S3 URLs with `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`; a stale or mismatched session token causes S3 uploads to fail with `InvalidToken`.
-
-The variable names must match the backend configuration exactly. Use `POSTGRES_USERNAME`, not `POSTGRES_USER`; use `AWS_REGION`, not `AWS_DEFAULT_REGION`.
-
-Elastic Beanstalk production environment properties should include:
+Elastic Beanstalk production environment properties should include after CircleCI copy:
 
 - `POSTGRES_HOST`
 - `POSTGRES_DB`
@@ -77,6 +74,9 @@ Elastic Beanstalk production environment properties should include:
 - `AWS_BUCKET`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
+- `AWS_SESSION_TOKEN`
 - `AWS_REGION`
 - `JWT_SECRET`
 - `URL`
+
+`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` must belong to the same temporary AWS credentials session. If the session expires or only one of the three values is updated, the backend can still generate signed S3 URLs, but S3 rejects uploads with `InvalidToken`.
